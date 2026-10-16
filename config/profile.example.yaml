@@ -1,0 +1,61 @@
+# Who the digest is for. Copy to profile.yaml and edit.
+
+timezone: Europe/London          # IANA name: America/New_York, Asia/Tokyo, …
+home_label: "📍 In London"        # section title for in-person events near you
+
+# The AI reads this. Say what you want and what you don't.
+about: >
+  Based in London. Interested in AI, startups and investing. I go to events to meet founders,
+  investors and engineers in person. Online, I only want strong events: big-company hackathons and
+  workshops, and live sessions where I can talk to professionals. No generic webinars or paid courses.
+
+# TOPICS: an item must match one. keyword: weight. A title match counts double.
+# Plurals match automatically. Keywords of 3 letters or fewer (AI, VC) only match in capitals.
+interests:
+  ai: 3
+  machine learning: 3
+  llm: 3
+  agent: 2
+  hackathon: 3
+  internship: 3
+  intern: 3
+  startup: 2
+  founder: 1
+  investor: 2
+  vc: 2
+  pitch: 2
+  demo day: 2
+  accelerator: 2
+
+# FORMATS: boost an item that already matches a topic. They never qualify an item alone.
+formats:
+  workshop: 2
+  meetup: 1
+  conference: 1
+  networking: 1
+  competition: 2
+
+# Your area. In-person events elsewhere are dropped.
+locations: [london, uk, united kingdom]
+
+exclude: [sold out]               # never send titles with these words
+
+min_score: 4                      # threshold for rule scores
+min_ai_score: 6                   # threshold when the AI rated the item
+max_items: 15                     # most items per digest; the rest wait for another day
+quotas: {in_person: 6, jobs: 3, posts: 1, online: 3, international: 2}   # reserved slots (sum ≤ max_items)
+max_online: 6                     # most online items (hackathons + events) per digest
+min_online_score: 8               # online items must be this strong
+online_events: true               # set false to get in-person events only
+
+# Organisers worth it even online.
+notable_organizers: [google, microsoft, nvidia, aws, amazon, meta, openai, anthropic, hugging face, mlh, gitlab, intel, amd, salesforce, stripe, mistral, cohere, deepmind]
+remote_ok: true
+relocation_ok: false              # true: jobs/programs abroad from sources tagged `international`
+needs_visa_sponsorship: false     # true: drop 'no sponsorship' / 'nationals only' jobs, boost sponsored ones
+lookahead_days: 120
+max_post_age_days: 7
+max_program_age_days: 30
+
+# AI scoring runs when GEMINI_API_KEY is set; models are tried in this order.
+llm_models: [gemini-2.5-flash, gemini-3.5-flash-lite, gemini-3.1-flash-lite]

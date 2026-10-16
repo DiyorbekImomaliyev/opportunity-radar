@@ -1,0 +1,17 @@
+# Python / tooling
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+
+# Your private setup (examples are committed instead)
+.env
+config/sources.yaml
+config/profile.yaml
+private/
+data/
+
+# Changes approved in the Telegram bot
+config/overrides.yaml

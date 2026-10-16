@@ -1,0 +1,117 @@
+# Example sources (London). Copy to sources.yaml and replace with sites for your city.
+# Sources listed first win when the same event appears twice.
+# Check any source with:  radar test-source <name>
+
+sources:
+  # Any page with schema.org event data (Meetup, Eventbrite, dev.events, many venues).
+  - name: meetup-ai
+    type: jsonld
+    default_location: London, UK
+    urls:
+      - https://www.meetup.com/find/?location=gb--17--London&source=EVENTS&keywords=AI
+
+  - name: eventbrite-ai
+    type: jsonld
+    default_location: London, UK
+    urls:
+      - https://www.eventbrite.com/d/united-kingdom--london/ai/
+
+  - name: tech-conferences
+    type: jsonld
+    default_location: London, UK
+    urls:
+      - https://dev.events/EU/GB/London/tech
+
+  # Bevy communities (Google Developer Groups, Startup Grind). The chapter id is in the
+  # chapter page's source: search for "chapter_id".
+  - name: gdg-london
+    type: bevy
+    chapter_id: 995
+    default_location: London, UK
+
+  - name: startupgrind-london
+    type: bevy
+    base_url: https://www.startupgrind.com
+    chapter_id: 41
+    organizer: Startup Grind London
+    default_location: London, UK
+
+  # Online hackathons worldwide.
+  - name: devpost
+    type: devpost
+    min_registrations: 100            # online hackathons need some traction
+
+  # Online AI events (only strong ones pass min_online_score).
+  - name: online-ai-events
+    type: jsonld
+    urls:
+      - https://dev.events/online/ai
+      - https://www.eventbrite.com/d/online/ai/
+
+  # LinkedIn jobs (public search, no login).
+  - name: linkedin-jobs
+    type: linkedin_jobs
+    keywords: [AI intern, machine learning intern]
+    locations: [United Kingdom]
+    posted_within_hours: 72
+
+  # Jobs abroad: rotate many countries under LinkedIn's rate limit and read each new job's page
+  # for visa sponsorship / "nationals only" lines.
+  - name: linkedin-jobs-abroad
+    type: linkedin_jobs
+    keywords: ["data scientist visa sponsorship", "data analyst intern", "AI intern"]
+    locations: [European Union, United Arab Emirates, Singapore]
+    posted_within_hours: 168          # at least one full rotation
+    max_queries: 3                    # 9 pairs → all covered every 3 days
+    details: 5
+    filters: {f_E: "1,2"}             # internship + entry level
+    tags: [international]
+
+  # International: remote jobs open where you live, and fully funded programs.
+  - name: remote-data-jobs
+    type: remote_jobs
+    provider: remotive                 # or jobicy, himalayas
+    search: data
+    allowed_regions: [worldwide, anywhere, europe, emea]
+
+  - name: funded-programs
+    type: rss
+    url: https://www.opportunitiescircle.com/feed/
+    kind: program
+    fetch_eligibility: true            # read each article's eligibility section for the AI
+    tags: [international]
+
+  - name: jobs-germany
+    type: arbeitnow
+    tags: [international]
+
+  # --- More types. Set enabled: true and fill in your own sites. ---
+
+  # Public posts of LinkedIn company pages or people.
+  - name: linkedin-posts
+    type: linkedin_posts
+    enabled: false
+    pages:
+      - https://www.linkedin.com/company/google/
+
+  # Sites using the WordPress "The Events Calendar" plugin (/wp-json/tribe/events/v1/events).
+  - name: university-events
+    type: tribe_events
+    enabled: false
+    base_url: https://www.example.edu
+    default_location: London, UK
+
+  # Any WordPress site's REST API (/wp-json/wp/v2/<post_type>).
+  - name: hub-events
+    type: wordpress
+    enabled: false
+    base_url: https://www.example.org
+    post_type: events
+    listing_url: https://www.example.org/events/   # page that shows the event dates
+    default_location: London, UK
+
+  # Any RSS/Atom feed.
+  - name: news-feed
+    type: rss
+    enabled: false
+    url: https://www.example.org/feed/
